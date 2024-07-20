@@ -11,7 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>SafeSpeed</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SafeSpeed</name>
+	<name>server</name>
 	<description>Safe speed backend</description>
 	<url/>
 	<licenses>
@@ -41,6 +41,13 @@
 			<version>7.10.2</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.zaproxy</groupId>
+			<artifactId>zap-clientapi</artifactId>
+			<version>1.14.0</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.mongodb</groupId>

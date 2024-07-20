@@ -1,4 +1,4 @@
-package com.example.SafeSpeed;
+package server.Database;
 
 import static com.mongodb.client.model.Filters.eq;
 
