@@ -1,7 +1,11 @@
 
 package server.perfomanceController;
+import org.apache.jorphan.collections.HashTree;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.*;  // Importing the necessary annotations
+import performance.JMeterFunctions;
 import server.Database.DatabaseController;
 import server.perfomanceController.paramClasses.TestPlanBody;
 import server.perfomanceController.paramClasses.RunTestPlanBody;
@@ -9,7 +13,7 @@ import server.perfomanceController.paramClasses.SamplerBody;
 import server.perfomanceController.paramClasses.ThreadGroupBody;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/performance")
 public class PerformanceController {
 
     // GET endpoint
@@ -53,13 +57,25 @@ public class PerformanceController {
     }
 
     @PostMapping("/runTestPlan")
-    public JSONObject createThreadGroup(@RequestBody RunTestPlanBody body) {
+    public JSONObject createThreadGroup(@RequestBody RunTestPlanBody body) throws ParseException {
         JSONObject testPlan = DatabaseController.getTestPlan(body.getUserId(), body.getTestPlanId());
+
+        JMeterFunctions jm = new JMeterFunctions();
+//        jm.createTestPlan(testPlan.get("title").toString());
+//
+//        JSONObject threadGroup = (JSONObject) new JSONParser().parse(testPlan.get("threadGroup").toString());
+//        String title = threadGroup.get("title").toString();
+//        int numThreads = Integer.parseInt(threadGroup.get("threads").toString());
+//        int rampUp = Integer.parseInt(threadGroup.get("rampUp").toString());
+//        jm.createThreadGroup(title, numThreads, rampUp);
+
+        HashTree builder = jm.buildTestPlan();
+        jm.runTestPlan(builder);
 
 
         JSONObject res = new JSONObject();
         res.put("Status", 200);
-        res.put("Message", "Thread group successfully created");
+        res.put("data",testPlan);
 
         return res;
     }

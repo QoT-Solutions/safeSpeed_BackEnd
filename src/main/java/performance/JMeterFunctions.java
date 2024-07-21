@@ -4,6 +4,8 @@ package performance;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
+import org.apache.jmeter.protocol.http.util.HTTPConstants;
+import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.testelement.TestPlan;
 import org.apache.jmeter.threads.ThreadGroup;
 import org.apache.jmeter.util.JMeterUtils;
@@ -33,6 +35,7 @@ public class JMeterFunctions {
             return threadGroup;
         }
 
+//        public HTTPSampler createSampler(String name, String comment,String domain, String path, String method)
         public HTTPSampler createSampler(String name, String comment,String domain, String path, String method) {
             // Define HTTP Sampler
             HTTPSampler sampler = new HTTPSampler();
@@ -50,15 +53,15 @@ public class JMeterFunctions {
             ThreadGroup threadGroup = createThreadGroup("Sample Thread Group", 1, 1);
             ArrayList<JSONObject> samples = new ArrayList<JSONObject>(){{
                 add(new JSONObject(){{
-                    put("name", "Sample HTTP Request 1");
+                    put("name", "Get qot solution");
                     put("comment", "Sample HTTP Request 1");
-                    put("domain", "http://www.google.com");
+                    put("domain", "https://www.qotsolutions.co.za/");
                     put("path", "/");
                     put("method", "GET");
                 }});
 
                 add(new JSONObject(){{
-                    put("name", "Sample HTTP Request 2");
+                    put("name", "Get google");
                     put("comment", "Sample HTTP Request 2");
                     put("domain", "http://www.google.com");
                     put("path", "/");
@@ -92,6 +95,7 @@ public class JMeterFunctions {
 
             // Run Test Plan
             jmeter.run();
+
         }
 
     }
