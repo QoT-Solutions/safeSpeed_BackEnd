@@ -8,23 +8,37 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import security.Helpers;
 
 public class DatabaseConnection {
-    public static void main( String[] args ) {
 
-        // Replace the placeholder with your MongoDB deployment's connection string
-        String uri = "mongodb+srv://lungeloshabangu101ot:860KWBysK5Xhyyj9@cluster0.lpw8agg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    public static MongoClient conn=null;
+    public static MongoClient openDBConnection() {
+        String connectionString = "mongodb+srv://lungeloshabangu101ot:860KWBysK5Xhyyj9@cluster0.lpw8agg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-        try (MongoClient mongoClient = MongoClients.create(uri)) {
-            MongoDatabase database = mongoClient.getDatabase("sample_mflix");
-            MongoCollection<Document> collection = database.getCollection("movies");
-
-            Document doc = collection.find(eq("title", "Back to the Future")).first();
-            if (doc != null) {
-                System.out.println(doc.toJson());
-            } else {
-                System.out.println("No matching documents found.");
+        try {
+            if (conn == null) {
+                conn = MongoClients.create(connectionString);
             }
+        } catch (Exception e) {
+            System.out.println("Unable to connect to the database due to an error: " + e);
         }
+
+        return conn;
+    }
+    public static MongoCollection<Document> getCollection(String collectionName) {
+        MongoCollection<Document> collection = null;
+        try {
+            MongoDatabase database = openDBConnection().getDatabase("security");
+            collection = database.getCollection(collectionName);
+        } catch (Exception e) {
+            System.out.println("Unable to connect to the database due to an error: " + e);
+        }
+
+        return collection;
+    }
+
+    public static void closeDBConnection() {
+        openDBConnection().close();
     }
 }

@@ -9,14 +9,15 @@ import java.util.List;
 
 public class SpiderCrawler {
 
-    private static final String ZAP_ADDRESS = "localhost";
-    private static final int ZAP_PORT = 8080;
-    // Change to match the API key set in ZAP, or use NULL if the API key is disabled
-    private static final String ZAP_API_KEY = "pff8s5ta7eo42jgg411651corg";
-    // The URL of the application to be tested
-    private static final String TARGET = "https://demo.guru99.com/test/newtours/";
 
-    public static ClientApi spiderCrawl() {
+
+    private static String ZAP_ADDRESS = "localhost";
+    private static int ZAP_PORT = 8080;
+    private static String ZAP_API_KEY = "pff8s5ta7eo42jgg411651corg";
+
+    public static ClientApi spiderCrawl(String TARGET) {
+
+        // The URL of the application to be tested
         ClientApi api = new ClientApi(ZAP_ADDRESS, ZAP_PORT, ZAP_API_KEY);
 
         try {

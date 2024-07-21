@@ -2,6 +2,7 @@ package security;
 
 import org.zaproxy.clientapi.core.ApiResponseElement;
 import org.zaproxy.clientapi.core.ClientApi;
+import server.Database.DatabaseController;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,16 +10,13 @@ import java.nio.charset.StandardCharsets;
 
 public class PassiveScan {
 
-    private static final int ZAP_PORT = 8080;
-    private static final String ZAP_API_KEY = "pff8s5ta7eo42jgg411651corg";
-    private static final String ZAP_ADDRESS = "localhost";
 
-    public static void main(String[] args) {
-        ClientApi api = SpiderCrawler.spiderCrawl();
+
+    public void triggerPassiveScan(String target) {
+        ClientApi api = SpiderCrawler.spiderCrawl(target);
         int numberOfRecords;
 
         try {
-            // TODO : explore the app (Spider, etc) before using the Passive Scan API, Refer the explore section for details
             // Loop until the passive scan has finished
             while (true) {
                 Thread.sleep(2000);
@@ -38,12 +36,16 @@ public class PassiveScan {
             try {
                 FileWriter writer = new FileWriter("report.html");
 
+                String jsonReport = new String(api.core.jsonreport(), StandardCharsets.UTF_8);
+                String htmlReport = new String(api.core.htmlreport(), StandardCharsets.UTF_8);
+
                 // Write HTML content to the file
-                System.out.println(new String(api.core.jsonreport(), StandardCharsets.UTF_8));
-                writer.write(new String(api.core.htmlreport(), StandardCharsets.UTF_8));
-
-
+                System.out.println("Writing HTML content to report.html");
+                writer.write(htmlReport);
                 writer.close();
+
+                //write to DB
+                DatabaseController.insertPSNReports("Passive Scan Report", jsonReport, htmlReport);
                 System.out.println("Successfully wrote HTML content to ");
             } catch (IOException e) {
                 System.err.println("Error writing to file " + e.getMessage());
