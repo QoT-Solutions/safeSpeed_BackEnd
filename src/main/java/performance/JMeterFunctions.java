@@ -18,11 +18,20 @@ public class JMeterFunctions {
 
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
+        public static void main(String[] args) {
+            JMeterFunctions jMeterFunctions = new JMeterFunctions();
+
+            HashTree testPlanHashTree = jMeterFunctions.buildTestPlan();
+            jMeterFunctions.runTestPlan(testPlanHashTree);
+        }
+
         public TestPlan createTestPlan(String name) {
             // Define Test Plan
             TestPlan testPlan = new TestPlan("Sample Test Plan");
             return testPlan;
         }
+        
+
 
         public ThreadGroup createThreadGroup(String name, int numThreads, int rampUp) {
             // Define Thread Group
