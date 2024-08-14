@@ -1,3 +1,6 @@
 timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
-1722975368226,7,HTTP Sampler,Non HTTP response code: java.net.ConnectException,Non HTTP response message: Connection refused: connect,Thread Group 1-1,text,false,Test failed: text expected to contain /hello/,1966,0,1,1,http://localhost:8090/api/echo?message=hello,0,0,0
-1722975373248,1,HTTP Sampler,Non HTTP response code: java.net.ConnectException,Non HTTP response message: Connection refused: connect,Thread Group 1-1,text,false,,1966,0,1,1,http://localhost:8090/api/echo?message=java.net.ConnectException%3A+Connection+refused%3A+connect%0D,0,0,0
+1723650488642,3,Test,Non HTTP response code: java.net.ProtocolException,Non HTTP response message: Invalid HTTP method: Get,ThreadGroup 1-1,text,false,,1078,0,3,3,http://demo.guru99.com/test/newtours,0,0,0
+1723650488820,0,Test,Non HTTP response code: java.net.ProtocolException,Non HTTP response message: Invalid HTTP method: Get,ThreadGroup 1-2,text,false,,1078,0,3,3,http://demo.guru99.com/test/newtours,0,0,0
+1723650489019,0,Test,Non HTTP response code: java.net.ProtocolException,Non HTTP response message: Invalid HTTP method: Get,ThreadGroup 1-3,text,false,,1078,0,3,3,http://demo.guru99.com/test/newtours,0,0,0
+1723650489221,0,Test,Non HTTP response code: java.net.ProtocolException,Non HTTP response message: Invalid HTTP method: Get,ThreadGroup 1-4,text,false,,1078,0,2,2,http://demo.guru99.com/test/newtours,0,0,0
+1723650489428,0,Test,Non HTTP response code: java.net.ProtocolException,Non HTTP response message: Invalid HTTP method: Get,ThreadGroup 1-5,text,false,,1078,0,1,1,http://demo.guru99.com/test/newtours,0,0,0

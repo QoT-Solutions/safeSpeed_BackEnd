@@ -69,8 +69,8 @@ public class PerformanceController {
 //        int rampUp = Integer.parseInt(threadGroup.get("rampUp").toString());
 //        jm.createThreadGroup(title, numThreads, rampUp);
 
-        HashTree builder = jm.buildTestPlan();
-        jm.runTestPlan(builder);
+//        HashTree builder = jm.buildTestPlan();
+//        jm.runTestPlan(builder);
 
 
         JSONObject res = new JSONObject();

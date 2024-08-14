@@ -31,6 +31,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+//https://abstracta.github.io/jmeter-java-dsl/guide/#check-for-expected-json
+//https://github.com/a-venger/jmeter-from-java-code/blob/master/src/main/java/com/avenger/demo/JMeterFromCode.java
 public class JMeterTestPlanExample {
 
     public static void main(String [] args) throws URISyntaxException {
