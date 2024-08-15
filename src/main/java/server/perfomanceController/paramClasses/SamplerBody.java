@@ -6,11 +6,9 @@ public class SamplerBody {
     private String testPlanId;
     private String name;
     private String comments;
-    private String protocol;
-    private String server;
-    private String type;
-    private String port;
-    private String body;
+    private String domain;
+    private String path;
+    private String method;
 
 
     public String getTestPlanId() {
@@ -25,25 +23,15 @@ public class SamplerBody {
         return comments;
     }
 
-    public String getProtocol() {
-        return protocol;
+    public String getDomain() {
+        return domain;
     }
 
-    public String getServer() {
-        return server;
+    public String getPath() {
+        return path;
     }
 
-    public String getType() {
-        return type;
+    public String getMethod() {
+        return method;
     }
-
-    public String getPort() {
-        return port;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-
 }

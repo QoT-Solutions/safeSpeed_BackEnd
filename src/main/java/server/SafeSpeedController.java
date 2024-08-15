@@ -1,8 +1,7 @@
 
 package com.example.SafeSpeed;
-import org.springframework.core.annotation.*;
 import org.springframework.web.bind.annotation.*;  // Importing the necessary annotations
-import org.springframework.stereotype.*;      // Importing the necessary annotations
+import server.Database.DB;
 
 @RestController
 @RequestMapping("/api")

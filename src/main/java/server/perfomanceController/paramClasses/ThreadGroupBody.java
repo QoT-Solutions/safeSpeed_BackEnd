@@ -6,10 +6,10 @@ public class ThreadGroupBody {
     private String userId;
     private String testPlanId;
     private String comments;
-    private String title;
-    private String threads;
-    private String rampUp;
-    private String holdTime;
+    private String name;
+    private int threads;
+    private int rampUp;
+    private int holdTime;
 
     public String getUserId() {
         return userId;
@@ -23,19 +23,19 @@ public class ThreadGroupBody {
         return comments;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public String getThreads() {
+    public int getThreads() {
         return threads;
     }
 
-    public String getRampUp() {
+    public int getRampUp() {
         return rampUp;
     }
 
-    public String getHoldTime() {
+    public int getHoldTime() {
         return holdTime;
     }
 }

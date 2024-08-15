@@ -53,6 +53,7 @@
 			<version>5.5</version> <!-- Adjust version according to your JMeter installation -->
 		</dependency>
 
+
 		<dependency>
 			<groupId>us.abstracta.jmeter</groupId>
 			<artifactId>jmeter-java-dsl-jdbc</artifactId>

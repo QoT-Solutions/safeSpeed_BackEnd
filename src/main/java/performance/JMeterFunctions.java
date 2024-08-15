@@ -1,6 +1,8 @@
 package performance;
 
 
+import org.apache.jmeter.assertions.ResponseAssertion;
+import org.apache.jmeter.assertions.gui.AssertionGui;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.CSVDataSet;
 import org.apache.jmeter.config.gui.ArgumentsPanel;
@@ -27,13 +29,20 @@ import org.apache.jmeter.timers.gui.ConstantTimerGui;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import server.Database.DB;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.tomcat.util.http.fileupload.FileUtils.deleteDirectory;
 
 public class JMeterFunctions {
 
@@ -42,6 +51,7 @@ public class JMeterFunctions {
         private TestPlan testPlan;
         private  HashTree threadGroupHashTree;
         ReportGenerator reportGenerator;
+        File logFile;
 
         public JMeterFunctions() {
             // Set jmeter home
@@ -58,9 +68,19 @@ public class JMeterFunctions {
             String repDir = "./HTMLReport";
             JMeterUtils.setProperty("jmeter.reportgenerator.exporter.html.property.output_dir",repDir);
 
+            //clear jmeter output directory
+            try{
+                File repDirPath = new File("./report-output");
+                deleteDirectory(repDirPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
             //Initialize local variables
             jmeter = new StandardJMeterEngine();
             testPlanHarshTree = new ListedHashTree();
+            logFile = new File("./perfomanceLog.jtl");
 
         }
 
@@ -86,9 +106,9 @@ public class JMeterFunctions {
             csvDataSet.setProperty(TestElement.GUI_CLASS, TestBeanGUI.class.getName());
         }
 
-        public void createTestPlan(String testPlanName) {
+        public void createTestPlan(JSONObject testPlanData) {
             // Test Plan
-            testPlan = new TestPlan(testPlanName);
+            testPlan = new TestPlan(testPlanData.get("name").toString());
             testPlan.setProperty(TestElement.TEST_CLASS, TestPlan.class.getName());
             testPlan.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
             testPlan.setUserDefinedVariables((Arguments) new ArgumentsPanel().createTestElement());
@@ -118,12 +138,13 @@ public class JMeterFunctions {
             return loopController; //Used in threadGroup
         }
 
-        public void createThreadGroup(String name, int numThreads, int rampUp) {
+        public void createThreadGroup(JSONObject threadGroud) {
             // Define Thread Group
             ThreadGroup threadG = new ThreadGroup();
-            threadG.setName(name);
-            threadG.setNumThreads(numThreads); // Number of concurrent users
-            threadG.setRampUp(rampUp); // Ramp-up period (in seconds)
+            threadG.setName(threadGroud.get("name").toString());
+            threadG.setNumThreads(((Long) threadGroud.get("threads")).intValue()); // Number of concurrent users
+            threadG.setRampUp(((Long) threadGroud.get("rampUp")).intValue()); // Ramp-up period (in seconds)
+            threadG.setDuration(((Long) threadGroud.get("holdTime")).intValue()); // Hold time (in seconds)
             threadG.setSamplerController(new LoopController());
             threadG.setSamplerController(addLoopController(1));
 
@@ -139,6 +160,23 @@ public class JMeterFunctions {
             sampler.setPath(path);
             sampler.setMethod(method);
             threadGroupHashTree.add(sampler);
+        }
+
+        public void addAssertion(){
+            // Response Assertion
+            ResponseAssertion assertion = new ResponseAssertion();
+            assertion.setProperty(TestElement.TEST_CLASS, ResponseAssertion.class.getName());
+            assertion.setProperty(TestElement.GUI_CLASS, AssertionGui.class.getName());
+            assertion.setName("Response Assertion");
+            assertion.setEnabled(true);
+            assertion.setTestFieldResponseData();
+            assertion.addTestString("hello");
+        }
+
+        public void createMultipleSamplers(List<JSONObject> samplers){
+            for (JSONObject sampler: samplers){
+                createSampler(sampler.get("title").toString(), sampler.get("comment").toString(), sampler.get("domain").toString(), sampler.get("path").toString(), sampler.get("method").toString());
+            }
         }
 
         public void saveFile() throws IOException {
@@ -157,8 +195,7 @@ public class JMeterFunctions {
             }
 
 
-            // Store execution results into a .jtl file
-            File logFile = new File("./example.jtl");
+
             //delete log file if exists
             if (logFile.exists()){
                 boolean delete = logFile.delete();
@@ -177,8 +214,24 @@ public class JMeterFunctions {
             jmeter.run();
         }
 
-        public void generateReportAfterRun() throws GenerationException {
+        public void generateReportAfterRun(String testPlanId) throws GenerationException {
             reportGenerator.generate();
+
+            ReportProcessor reportProcessor = new ReportProcessor();
+            DB db = new DB();
+
+            try{
+                List<Map<String, String>> records = reportProcessor.readJTLFile(logFile.getPath());
+                JSONArray formattedReport = reportProcessor.convertToJson(records);
+                db.storeReport(formattedReport, testPlanId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            //Add code to write summary to DB
         }
 
     }
