@@ -1,5 +1,5 @@
 
-package com.example.SafeSpeed;
+package server;
 import org.springframework.web.bind.annotation.*;  // Importing the necessary annotations
 import server.Database.DB;
 
@@ -8,28 +8,9 @@ import server.Database.DB;
 public class SafeSpeedController {
 
     // GET endpoint
-    @GetMapping("/hello")
+    @GetMapping("/healthCheck")
     public String getHello() {
         return "Hello, World!";
-    }
-
-    // POST endpoint
-    @PostMapping("/greet")
-    public String postGreeting(@RequestBody Greeting greeting) {
-        return "Hello, " + greeting.getName() + "!";
-    }
-
-    // Class to handle the POST request body
-    public static class Greeting {
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 }
 

@@ -65,17 +65,17 @@ public class JMeterFunctions {
             JMeterUtils.initLocale();
 
             // Set directory for HTML report
-            String repDir = "./HTMLReport";
-            JMeterUtils.setProperty("jmeter.reportgenerator.exporter.html.property.output_dir",repDir);
+            File repDir = new File("./HTMLReport");
+            JMeterUtils.setProperty("jmeter.reportgenerator.exporter.html.property.output_dir",repDir.getPath());
 
             //clear jmeter output directory
             try{
                 File repDirPath = new File("./report-output");
                 deleteDirectory(repDirPath);
+                deleteDirectory(repDir);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
 
             //Initialize local variables
             jmeter = new StandardJMeterEngine();
@@ -157,6 +157,7 @@ public class JMeterFunctions {
             sampler.setName(name);
             sampler.setComment(comment);
             sampler.setDomain(domain);
+
             sampler.setPath(path);
             sampler.setMethod(method);
             threadGroupHashTree.add(sampler);
@@ -221,9 +222,13 @@ public class JMeterFunctions {
             DB db = new DB();
 
             try{
+                JSONArray summary = reportProcessor.readJsonFile("./report-output/statistics.json");
+                db.storeReport(summary, testPlanId, "performanceSummary");
+
                 List<Map<String, String>> records = reportProcessor.readJTLFile(logFile.getPath());
                 JSONArray formattedReport = reportProcessor.convertToJson(records);
-                db.storeReport(formattedReport, testPlanId);
+                db.storeReport(formattedReport, testPlanId, "performanceReports");
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParseException e) {

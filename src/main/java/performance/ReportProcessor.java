@@ -19,17 +19,17 @@ public class ReportProcessor {
 
     static JSONParser parser = new JSONParser();
 
-    public  static void main(String[] args) {
-        List<Map<String, String>> records = readJTLFile("./example.jtl");
-        try {
-            JSONArray jsonArray = convertToJson(records);
-            System.out.println(jsonArray);
-            DB db = new DB();
-            db.storeReport(jsonArray, "55");
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    }
+//    public  static void main(String[] args) {
+//        List<Map<String, String>> records = readJTLFile("./example.jtl");
+//        try {
+//            JSONArray jsonArray = convertToJson(records);
+//            System.out.println(jsonArray);
+//            DB db = new DB();
+//            db.storeReport(jsonArray, "55");
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static List<Map<String, String>> readJTLFile(String filePath) {
         List<Map<String, String>> records = new ArrayList<>();
@@ -61,6 +61,16 @@ public class ReportProcessor {
             }
             jsonArray.add(jsonObject);
         }
+        return jsonArray;
+    }
+
+    //Read JSON file and return JSONObject
+    public static JSONArray readJsonFile(String filePath) throws IOException, ParseException {
+        Reader reader = new FileReader(filePath);
+        JSONArray jsonArray = new JSONArray();
+
+        JSONObject jsonObject = (JSONObject) parser.parse(reader);
+        jsonArray.add(jsonObject);
         return jsonArray;
     }
 }

@@ -83,8 +83,8 @@ public class DB {
         System.out.println("Success! Inserted sampler id: " + result.getInsertedId());
     }
 
-    public void storeReport(JSONArray data, String testPlanId) {
-        MongoCollection<Document> collection = getCollection("performanceResults");
+    public void storeReport(JSONArray data, String testPlanId, String DBName) {
+        MongoCollection<Document> collection = getCollection(DBName);
 
         // Get today's date
         LocalDate today = LocalDate.now();
@@ -140,5 +140,34 @@ public class DB {
             throw new RuntimeException(e);
         }
         return samplers;
+    }
+
+    public JSONObject getPerformanceSummary(String testPlanId) {
+        //get run summary
+        MongoCollection<Document> runSummaryCollection = getCollection("performanceSummary");
+        Document document = runSummaryCollection.find(eq("testPlanId", testPlanId)).first();
+        try {
+            System.out.println(document.toJson());
+            return (JSONObject) parser.parse(document.toJson());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public JSONArray getReports(String testPlanId, String DBName) {
+        //get reports
+        MongoCollection<Document> reportsCollection = getCollection(DBName);
+        JSONArray reports = new JSONArray();
+        try (MongoCursor<Document> cursor = reportsCollection.find(eq("testPlanId", testPlanId)).iterator()) {
+            while (cursor.hasNext()) {
+                Document res = cursor.next();
+                System.out.println(res.toJson());
+                JSONObject doc = (JSONObject) parser.parse(res.toJson());
+                reports.add(doc);
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return reports;
     }
 }

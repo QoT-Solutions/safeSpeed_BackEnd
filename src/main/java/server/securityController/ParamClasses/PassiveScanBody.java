@@ -1,18 +1,20 @@
 package server.securityController.ParamClasses;
 
 public class PassiveScanBody {
-    String BaseUrl;
-    String title;
-    String recursive;
-    String userId;
+    private String baseUrl;
+    private String testPlanId;
+    private String title;
+    private String recursive;
+    private String userId;
 
     public String getBaseUrl() {
-        return BaseUrl;
+        return baseUrl;
     }
 
-    public void setBaseUrl(String name) {
-        this.BaseUrl = name;
+    public String getTestPlanId() {
+        return testPlanId;
     }
+
 
 
 }

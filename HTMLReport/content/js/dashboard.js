@@ -133,7 +133,7 @@ $(document).ready(function() {
         widgets: ['zebra']
     });
 
-    var data = {"OkPercent": 0.0, "KoPercent": 100.0};
+    var data = {"OkPercent": 100.0, "KoPercent": 0.0};
     var dataset = [
         {
             "label" : "FAIL",
@@ -173,7 +173,7 @@ $(document).ready(function() {
     });
 
     // Creates APDEX table
-    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.0, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Toleration threshold)", "F (Frustration threshold)", "Label"], "items": [{"data": [0.0, 500, 1500, ""], "isController": false}]}, function(index, item){
+    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.5, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Toleration threshold)", "F (Frustration threshold)", "Label"], "items": [{"data": [0.5, 500, 1500, "Get Bookings"], "isController": false}, {"data": [0.5, 500, 1500, "Health Check"], "isController": false}, {"data": [0.5, 500, 1500, "Find Pet"], "isController": false}, {"data": [0.5, 500, 1500, "Inventory"], "isController": false}]}, function(index, item){
         switch(index){
             case 0:
                 item = item.toFixed(3);
@@ -187,7 +187,7 @@ $(document).ready(function() {
     }, [[0, 0]], 3);
 
     // Create statistics table
-    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 30, 30, 100.0, 0.0, 0, 0, 0.0, 0.0, 0.0, 0.0, 6.700915791824882, 5.725880193209738, 0.0], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["", 30, 30, 100.0, 0.0, 0, 0, 0.0, 0.0, 0.0, 0.0, 6.700915791824882, 5.725880193209738, 0.0], "isController": false}]}, function(index, item){
+    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 40, 0, 0.0, 688.1750000000001, 528, 1175, 546.5, 1123.6, 1164.1499999999999, 1175.0, 5.527152134862512, 34.411649768550504, 0.0], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["Get Bookings", 10, 0, 0.0, 1117.9999999999998, 1075, 1175, 1108.5, 1174.1, 1175.0, 1175.0, 1.7879492222420883, 41.96512381548364, 0.0], "isController": false}, {"data": ["Health Check", 10, 0, 0.0, 546.5999999999999, 529, 572, 545.0, 570.5, 572.0, 572.0, 2.007628990162618, 1.46651023890785, 0.0], "isController": false}, {"data": ["Find Pet", 10, 0, 0.0, 546.3000000000001, 528, 598, 540.0, 594.6, 598.0, 598.0, 2.015722636565209, 0.7224318433783511, 0.0], "isController": false}, {"data": ["Inventory", 10, 0, 0.0, 541.8000000000001, 529, 552, 542.5, 551.9, 552.0, 552.0, 2.035002035002035, 0.6995319495319495, 0.0], "isController": false}]}, function(index, item){
         switch(index){
             // Errors pct
             case 3:
@@ -217,7 +217,7 @@ $(document).ready(function() {
     }, [[0, 0]], 0, summaryTableHeader);
 
     // Create error table
-    createTable($("#errorsTable"), {"supportsControllersDiscrimination": false, "titles": ["Type of error", "Number of errors", "% in errors", "% in all samples"], "items": [{"data": ["Non HTTP response code: java.net.MalformedURLException/Non HTTP response message: Illegal character found in host: '/'", 30, 100.0, 100.0], "isController": false}]}, function(index, item){
+    createTable($("#errorsTable"), {"supportsControllersDiscrimination": false, "titles": ["Type of error", "Number of errors", "% in errors", "% in all samples"], "items": []}, function(index, item){
         switch(index){
             case 2:
             case 3:
@@ -228,7 +228,7 @@ $(document).ready(function() {
     }, [[1, 1]]);
 
         // Create top5 errors by sampler
-    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 30, 30, "Non HTTP response code: java.net.MalformedURLException/Non HTTP response message: Illegal character found in host: '/'", 30, "", "", "", "", "", "", "", ""], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": ["", 30, 30, "Non HTTP response code: java.net.MalformedURLException/Non HTTP response message: Illegal character found in host: '/'", 30, "", "", "", "", "", "", "", ""], "isController": false}]}, function(index, item){
+    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 40, 0, "", "", "", "", "", "", "", "", "", ""], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": [], "isController": false}, {"data": [], "isController": false}, {"data": [], "isController": false}, {"data": [], "isController": false}]}, function(index, item){
         return item;
     }, [[0, 0]], 0);
 

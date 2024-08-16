@@ -3,16 +3,13 @@ package server.perfomanceController;
 import jakarta.annotation.PostConstruct;
 import org.apache.jmeter.report.config.ConfigurationException;
 import org.apache.jmeter.report.dashboard.GenerationException;
-import org.apache.jorphan.collections.HashTree;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;  // Importing the necessary annotations
 import performance.JMeterFunctions;
 import server.Database.DB;
-import server.Database.DatabaseController;
 import server.perfomanceController.paramClasses.TestPlanBody;
 import server.perfomanceController.paramClasses.RunTestPlanBody;
 import server.perfomanceController.paramClasses.SamplerBody;
@@ -107,6 +104,11 @@ public class PerformanceController {
             return res;
         });
 
+    }
+
+    @GetMapping("/getRunSummary")
+    public JSONObject getRunSummary(@RequestParam String testPlanId) {
+        return db.getPerformanceSummary(testPlanId);
     }
 
 

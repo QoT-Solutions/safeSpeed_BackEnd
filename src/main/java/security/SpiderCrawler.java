@@ -9,8 +9,6 @@ import java.util.List;
 
 public class SpiderCrawler {
 
-
-
     private static String ZAP_ADDRESS = "localhost";
     private static int ZAP_PORT = 8080;
     private static String ZAP_API_KEY = "pff8s5ta7eo42jgg411651corg";
